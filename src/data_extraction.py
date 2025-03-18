@@ -31,7 +31,7 @@ def load_data(file_path):
 
 #usage
 if __name__ == "__main__":
-    data = load_data(r"C:\Users\nafis\Downloads\dataset.csv")
+    data = load_data("file_path")
     if data is not None:
         print(data.head())
 

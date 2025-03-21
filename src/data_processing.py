@@ -1,4 +1,10 @@
-from data_extraction import load_data
+import os
+import sys
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+sys.path.insert(0, project_root)
+
+from src.data_extraction import load_data
 
 import torch
 import pandas as pd
@@ -97,7 +103,7 @@ def create_data_loader(df, tokenizer, max_len, batch_size):
     )
     return DataLoader(dataset, batch_size=batch_size, num_workers=0)
 
-df = load_data(r"C:\Users\Julie\Downloads\dataset.csv") 
+df = load_data("file_path") 
 df = preprocess_data(df)
 
 from sklearn.model_selection import train_test_split

@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  sentiment-app:
+    build: .
+    container_name: sentiment_app
+    ports:
+      - "8000:8000"  
+    volumes:
+      - sentiment_data:/app/data 
+      - sentiment_models:/app/model
+    restart: always
+
+volumes:
+  sentiment_data:
+  sentiment_models:

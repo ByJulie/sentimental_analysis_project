@@ -1,16 +1,22 @@
 version: "3.9"
 
 services:
-  sentiment-app:
+  app:
     build: .
-    container_name: sentiment_app
-    ports:
-      - "8000:8000"  
     volumes:
-      - sentiment_data:/app/data 
-      - sentiment_models:/app/model
-    restart: always
+      - model_volume:/app/best_model
+      - data_volume:/app/data
+    stdin_open: true
+    tty: true
+
+  data:
+    image: busybox
+    volumes:
+      - data_volume:/data
+    command: sh -c "sleep 120"  # to keep the container active
 
 volumes:
-  sentiment_data:
-  sentiment_models:
+  model_volume:
+    driver: local
+  data_volume:
+    driver: local

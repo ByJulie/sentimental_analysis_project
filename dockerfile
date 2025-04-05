@@ -15,4 +15,6 @@ COPY . .
 EXPOSE 8000
 
 # Temporary entry point to test container 
-CMD ["python", "src/inference.py"]
+#CMD ["python", "src/inference.py"]
+ENTRYPOINT ["python", "src/inference.py"]
+

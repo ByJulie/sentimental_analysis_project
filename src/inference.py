@@ -1,7 +1,7 @@
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import os
-import pandas as pd
+import sys
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -36,14 +36,7 @@ def predict_sentiment(text):
 
     return LABELS[prediction]
 
-#if __name__ == "__main__":
-    #text = input("Enter a text for sentimental analysis: ")
-    #sentiment = predict_sentiment(text)
-    #print(f"Predicted sentiment: {sentiment}")
-
-
 if __name__ == "__main__":
-    df = pd.read_csv("data/dataset.csv")  
-    df["predicted_sentiment"] = df["content"].apply(predict_sentiment)
-    print("\n Predicted Sentiments:")
-    print(df[["content", "predicted_sentiment"]].to_string(index=False))
+    text = sys.argv[1]
+    sentiment = predict_sentiment(text)
+    print(f"Predicted sentiment: {sentiment}")

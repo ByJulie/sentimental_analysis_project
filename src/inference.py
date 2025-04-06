@@ -9,7 +9,11 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 LABELS = {0: "Négatif", 1: "Neutre", 2: "Positif"}
 
 # Load tokenizer and trained model
-model_dir = os.path.join(os.path.dirname(__file__), "..", "best_model")
+if 'GITHUB_ACTIONS' in os.environ:
+    model_dir = os.path.join(os.path.dirname(__file__), "..", "models", "best_model")
+else:
+    # Environnement local
+    model_dir = os.path.join(os.path.dirname(__file__), "..", "best_model")
 tokenizer = AutoTokenizer.from_pretrained(model_dir)
 model = AutoModelForSequenceClassification.from_pretrained(model_dir).to(device)
 model.eval()

@@ -1,4 +1,3 @@
-from src.data_extraction import load_data
 import pandas as pd
 from io import StringIO
 import os
@@ -8,6 +7,7 @@ project_root = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.insert(0, project_root)
 
+from src.data_extraction import load_data
 
 def test_load_valid_csv(tmp_path):
     # Create a temporary CSV file

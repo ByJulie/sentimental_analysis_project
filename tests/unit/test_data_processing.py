@@ -1,4 +1,3 @@
-from src.data_processing import clean_text, MAX_LEN
 import pytest
 from transformers import BertTokenizer
 import os
@@ -8,6 +7,7 @@ project_root = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.insert(0, project_root)
 
+from src.data_processing import clean_text, MAX_LEN
 
 # tokinizer initialization
 tokenizer = BertTokenizer.from_pretrained('bert-base-cased')

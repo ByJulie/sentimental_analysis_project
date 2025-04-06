@@ -5,7 +5,6 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import BertTokenizer
 import pandas as pd
 import torch
-from src.data_extraction import load_data
 import os
 import sys
 
@@ -13,6 +12,7 @@ project_root = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.insert(0, project_root)
 
+from src.data_extraction import load_data
 
 RANDOM_SEED = 42
 np.random.seed(RANDOM_SEED)

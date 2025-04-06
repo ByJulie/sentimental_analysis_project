@@ -1,4 +1,3 @@
-from src.data_processing import train_loader, val_loader
 import argparse
 import torch
 import numpy as np
@@ -14,6 +13,7 @@ project_root = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.insert(0, project_root)
 
+from src.data_processing import train_loader, val_loader
 
 # Check if a GPU is available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

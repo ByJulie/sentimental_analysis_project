@@ -1,4 +1,3 @@
-from src.inference import predict_sentiment, model_dir, LABELS
 import torch
 from transformers import AutoModelForSequenceClassification, BertForSequenceClassification, AutoTokenizer
 import os
@@ -8,6 +7,7 @@ project_root = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.insert(0, project_root)
 
+from src.inference import predict_sentiment, model_dir, LABELS
 
 def test_model_loading():
     """Checks that the model and tokenizer load correctly"""

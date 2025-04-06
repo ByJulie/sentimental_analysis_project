@@ -1,3 +1,4 @@
 mlops_env/
 __pycache__/
 best_model/
+.pytest_cache/

@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    volumes:
+      - model_volume:/app/best_model
+      - data_volume:/app/data
+    stdin_open: true
+    tty: true
+
+  data:
+    image: busybox
+    volumes:
+      - data_volume:/data
+    command: sh -c "sleep 120"  # to keep the container active
+
+volumes:
+  model_volume:
+    driver: local
+  data_volume:
+    driver: local

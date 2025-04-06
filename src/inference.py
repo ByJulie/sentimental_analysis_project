@@ -1,6 +1,7 @@
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import os
+import sys
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -36,6 +37,6 @@ def predict_sentiment(text):
     return LABELS[prediction]
 
 if __name__ == "__main__":
-    text = input("Enter a text for sentimental analysis: ")
+    text = sys.argv[1]
     sentiment = predict_sentiment(text)
     print(f"Predicted sentiment: {sentiment}")

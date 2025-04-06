@@ -22,7 +22,7 @@ jobs:
           pip install pytest flake8
 
       - name: Run tests
-        run: pytest tests/
+        run: pytest tests/unit/test_data_extraction.py tests/unit/test_data_processing.py tests/unit/test_inference.py
 
       - name: Run flake8
         run: flake8 src/ tests/

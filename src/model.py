@@ -1,3 +1,4 @@
+import argparse
 import torch
 import numpy as np
 from torch import nn
@@ -24,6 +25,21 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME, num_labels=NUM_CLASSES)
 model.to(device)
 
+
+# Parameters for accepting command line arguments
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--eval-only', action='store_true', help='Indicate that you only need to evaluate the model, without training it.')
+    return parser.parse_args()
+
+# Function to load model and data (if required)
+def load_model_and_data():
+    # If training is complete, load the best model
+    tokenizer = AutoTokenizer.from_pretrained("best_model")
+    model = AutoModelForSequenceClassification.from_pretrained("best_model", num_labels=NUM_CLASSES)
+    model.to(device)
+    return tokenizer, model
+
 # Training function
 def train_model(model, train_loader, val_loader, epochs, lr=2e-5):
     optimizer = AdamW(model.parameters(), lr=lr, correct_bias=False)
@@ -33,7 +49,7 @@ def train_model(model, train_loader, val_loader, epochs, lr=2e-5):
 
     history = defaultdict(list)
     best_accuracy = 0
-    best_model_state = None  # Variable pour stocker les meilleurs poids
+    best_model_state = None 
 
     for epoch in range(epochs):
         print(f"Epoch {epoch + 1}/{epochs}\n" + "-" * 10)
@@ -108,5 +124,22 @@ def eval_model(model, data_loader, loss_fn):
 
     return correct / len(data_loader.dataset), total_loss / len(data_loader)
 
-# Training the model
-train_model(model, train_loader, val_loader, epochs=3)
+# Main function
+def main():
+    loss_fn = nn.CrossEntropyLoss().to(device)
+    args = parse_args()
+
+    # Si on passe --eval-only, on charge seulement le modèle et on l'évalue
+    if args.eval_only:
+        print("Only evaluating the model...")
+        tokenizer, model = load_model_and_data()
+        eval_model(model, val_loader, loss_fn)  # Effectuer l'évaluation seulement
+    else:
+        print("Training the model...")
+        tokenizer, model = load_model_and_data()
+        history = train_model(model, train_loader, val_loader, epochs=3)
+        # Après l'entraînement, tu peux aussi évaluer le modèle
+        eval_model(model, val_loader, loss_fn)
+
+if __name__ == "__main__":
+    main()

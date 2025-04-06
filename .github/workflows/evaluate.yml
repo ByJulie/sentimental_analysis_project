@@ -27,7 +27,7 @@ jobs:
 
       - name: Download the best model from GitHub release
         run: |
-          curl -L -o best_model.tar.gz https://github.com/ByJulie/repository/releases/download/v1.0/best_model.tar.gz
+          curl -L -o best_model.tar.gz https://github.com/ByJulie/sentimental_analysis_project/releases/download/v1.0/best_model.tar.gz
           tar -xvzf best_model.tar.gz
 
       - name: Evaluate model

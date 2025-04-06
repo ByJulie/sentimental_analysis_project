@@ -10,7 +10,7 @@ LABELS = {0: "Négatif", 1: "Neutre", 2: "Positif"}
 
 # Load tokenizer and trained model
 if 'GITHUB_ACTIONS' in os.environ:
-    model_dir = os.path.join(os.path.dirname(__file__), "..", "models", "best_model")
+    model_dir = os.getcwd()
 else:
     # Environnement local
     model_dir = os.path.join(os.path.dirname(__file__), "..", "best_model")

@@ -1,6 +1,7 @@
-# function to load the file 
+# function to load the file
 
 import pandas as pd
+
 
 def load_data(file_path):
     """
@@ -15,7 +16,7 @@ def load_data(file_path):
     """
     try:
         df = pd.read_csv(file_path)
-        return df  
+        return df
 
     except FileNotFoundError:
         print(f"Error: The file '{file_path}' cannot be found.")
@@ -29,9 +30,8 @@ def load_data(file_path):
     return None  # Return None if we have failure
 
 
-#usage
+# usage
 if __name__ == "__main__":
     data = load_data("data/dataset.csv")
     if data is not None:
         print(data.head())
-

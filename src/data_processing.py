@@ -103,7 +103,7 @@ def create_data_loader(df, tokenizer, max_len, batch_size):
     )
     return DataLoader(dataset, batch_size=batch_size, num_workers=0)
 
-df = load_data("file_path") 
+df = load_data("data/dataset.csv") 
 df = preprocess_data(df)
 
 from sklearn.model_selection import train_test_split

@@ -1,0 +1,33 @@
+name: Run tests and lint
+
+on: [push, pull_request]
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest flake8
+
+      - name: Download the best model from GitHub release
+        run: |
+          curl -L -o best_model.tar.gz https://github.com/ByJulie/sentimental_analysis_project/releases/download/v1.0/best_model.tar.gz
+          tar -xvzf best_model.tar.gz
+
+      - name: Run tests
+        run: pytest tests/unit/test_data_extraction.py tests/unit/test_data_processing.py tests/unit/test_inference.py
+
+      - name: Run flake8
+        run: flake8 src/ tests/

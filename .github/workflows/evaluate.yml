@@ -1,0 +1,51 @@
+name: Evaluate model
+
+on:
+  workflow_run:
+    workflows: ["Run tests and lint"]
+    types:
+      - completed
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install torch transformers
+
+      - name: Download the best model from GitHub release
+        run: |
+          curl -L -o best_model.tar.gz https://github.com/ByJulie/sentimental_analysis_project/releases/download/v1.0/best_model.tar.gz
+          tar -xvzf best_model.tar.gz
+
+      - name: Evaluate model
+        run: |
+          python src/model.py --eval-only > eval_log.txt
+
+      - name: Extract accuracy and check threshold
+        run: |
+          acc=$(grep "Best model saved with accuracy" eval_log.txt | awk '{print $NF}')
+          echo "Accuracy = $acc"
+          threshold=0.75
+          result=$(echo "$acc > $threshold" | bc -l)
+          if [ "$result" -eq 0 ]; then
+            echo "Model performance below threshold ($threshold)"
+            exit 1
+          fi
+
+      - name: Upload evaluation log
+        uses: actions/upload-artifact@v3
+        with:
+          name: evaluation-log
+          path: eval_log.txt
